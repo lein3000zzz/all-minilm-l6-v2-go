@@ -2,12 +2,10 @@ module github.com/clems4ever/all-minilm-l6-v2-go
 
 go 1.25.1
 
-replace github.com/sugarme/tokenizer => github.com/clems4ever/tokenizer v0.0.0-20250926133620-9ddc80533c43
-
 require (
-	github.com/spf13/cobra v1.10.1
-	github.com/sugarme/tokenizer v0.3.0
-	github.com/yalue/onnxruntime_go v1.21.0
+	github.com/spf13/cobra v1.10.2
+	github.com/sugarme/tokenizer v0.3.1-0.20251127070628-8dac234bfe56
+	github.com/yalue/onnxruntime_go v1.25.0
 )
 
 require (
@@ -17,7 +15,8 @@ require (
 	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/schollz/progressbar/v2 v2.15.0 // indirect
-	github.com/spf13/pflag v1.0.9 // indirect
+	github.com/spf13/pflag v1.0.10 // indirect
 	github.com/sugarme/regexpset v0.0.0-20200920021344-4d4ec8eaf93c // indirect
-	golang.org/x/text v0.25.0 // indirect
+	golang.org/x/sync v0.19.0 // indirect
+	golang.org/x/text v0.32.0 // indirect
 )
