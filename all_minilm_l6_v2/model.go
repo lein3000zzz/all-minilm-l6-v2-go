@@ -54,11 +54,6 @@ func NewModel(opts ...ModelOption) (*Model, error) {
 		}
 	}
 
-	err = ort.InitializeEnvironment()
-	if err != nil {
-		return nil, fmt.Errorf("failed to initialize onnx runtime: %w", err)
-	}
-
 	// Create a dynamic session that accepts tensors at runtime
 	inputNames := []string{"input_ids", "attention_mask", "token_type_ids"}
 	outputNames := []string{"sentence_embedding"}
