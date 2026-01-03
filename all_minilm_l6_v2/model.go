@@ -96,12 +96,10 @@ func NewModelBare(opts ...ModelOption) (*Model, error) {
 	}, nil
 }
 
-func (m *Model) Close() error {
+func (m *Model) Close() {
 	if m.session != nil {
 		m.session.Destroy()
 	}
-	err := ort.DestroyEnvironment()
-	return err
 }
 
 func (m *Model) Compute(sentence string, addSpecialTokens bool) ([]float32, error) {
