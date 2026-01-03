@@ -54,7 +54,34 @@ func NewModel(opts ...ModelOption) (*Model, error) {
 		}
 	}
 
+	err = ort.InitializeEnvironment()
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to initialize onnx runtime: %w", err)
+	}
+
 	// Create a dynamic session that accepts tensors at runtime
+	inputNames := []string{"input_ids", "attention_mask", "token_type_ids"}
+	outputNames := []string{"sentence_embedding"}
+
+	session, err := ort.NewDynamicAdvancedSessionWithONNXData(onnxModel, inputNames, outputNames, nil)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create session: %w", err)
+	}
+
+	return &Model{
+		tk:      *tk,
+		session: session,
+	}, nil
+}
+
+func (m *Model) NewModelBare(opts ...ModelOption) (*Model, error) {
+	tk, err := pretrained.FromReader(
+		bytes.NewBuffer(embeddedTokenizer))
+	if err != nil {
+		return nil, fmt.Errorf("failed to load tokenizer: %w", err)
+	}
+
 	inputNames := []string{"input_ids", "attention_mask", "token_type_ids"}
 	outputNames := []string{"sentence_embedding"}
 
