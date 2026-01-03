@@ -75,7 +75,7 @@ func NewModel(opts ...ModelOption) (*Model, error) {
 	}, nil
 }
 
-func (m *Model) NewModelBare(opts ...ModelOption) (*Model, error) {
+func NewModelBare(opts ...ModelOption) (*Model, error) {
 	tk, err := pretrained.FromReader(
 		bytes.NewBuffer(embeddedTokenizer))
 	if err != nil {
