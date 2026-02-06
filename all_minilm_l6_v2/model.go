@@ -55,6 +55,7 @@ func NewModel(opts ...ModelOption) (*Model, error) {
 	}
 
 	err = ort.InitializeEnvironment()
+
 	if err != nil {
 		return nil, fmt.Errorf("failed to initialize onnx runtime: %w", err)
 	}
@@ -74,12 +75,31 @@ func NewModel(opts ...ModelOption) (*Model, error) {
 	}, nil
 }
 
-func (m *Model) Close() error {
+func NewModelBare(opts ...ModelOption) (*Model, error) {
+	tk, err := pretrained.FromReader(
+		bytes.NewBuffer(embeddedTokenizer))
+	if err != nil {
+		return nil, fmt.Errorf("failed to load tokenizer: %w", err)
+	}
+
+	inputNames := []string{"input_ids", "attention_mask", "token_type_ids"}
+	outputNames := []string{"sentence_embedding"}
+
+	session, err := ort.NewDynamicAdvancedSessionWithONNXData(onnxModel, inputNames, outputNames, nil)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create session: %w", err)
+	}
+
+	return &Model{
+		tk:      *tk,
+		session: session,
+	}, nil
+}
+
+func (m *Model) Close() {
 	if m.session != nil {
 		m.session.Destroy()
 	}
-	err := ort.DestroyEnvironment()
-	return err
 }
 
 func (m *Model) Compute(sentence string, addSpecialTokens bool) ([]float32, error) {
