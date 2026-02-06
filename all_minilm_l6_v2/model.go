@@ -102,7 +102,7 @@ func (m *Model) Close() {
 	}
 }
 
-func (m *Model) DestroyOrtEnv() error {
+func DestroyOrtEnv() error {
 	err := ort.DestroyEnvironment()
 	return err
 }

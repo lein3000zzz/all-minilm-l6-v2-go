@@ -234,5 +234,5 @@ func vectorsEqual(a, b []float32) bool {
 // Helper function to close the model and destroy its env
 func closeAndDestroy(m *all_minilm_l6_v2.Model) {
 	m.Close()
-	m.DestroyOrtEnv()
+	all_minilm_l6_v2.DestroyOrtEnv()
 }
